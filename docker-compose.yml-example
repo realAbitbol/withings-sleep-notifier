@@ -1,18 +1,15 @@
 services:
-  withings:
+  withings-bedevents:
     build: .
     ports:
-      - "5000:5000"   # webhook listener for bed events
-      - "8000:8000"   # OAuth authorization helper
+      - "8000:8000"
     environment:
-      - CLIENT_ID=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
-      - APP_URL=${APP_URL}
-      - BEDIN_URL=${BEDIN_URL}
-      - BEDOUT_URL=${BEDOUT_URL}
-      - TOKEN_FILE=/tokens.json
+      - WITHINGS_CLIENT_ID=YOUR_WITHINGS_CLIENT_ID
+      - WITHINGS_CLIENT_SECRET=YOUR_WITHINGS_CLIENT_SECRET
+      - BASE_URL=YOUR_APP_PUBLIC_BASE_URL}
+      - BEDIN_URL=THE_URL_TO_CALL_WHEN_YOU_GET_IN_BED
+      - BEDOUT_URL=THE_URL_TO_CALL_WHEN_YOU_GET_OUT_OF_BED
     volumes:
-      - tokens:/tokens.json
-
+      - TOKENS:/app/tokens   # Persist tokens across restarts
 volumes:
-  tokens:
+  TOKENS:

@@ -22,22 +22,22 @@ async def token_refresher_loop():
         if tokens and token_is_expired(tokens):
             try:
                 refresh_access_token(tokens)
-                print("🔄 Withings access token refreshed")
+                logger.info("🔄 Withings access token refreshed")
             except Exception as e:
-                print(f"❌ Error refreshing token: {e}")
+                logger.error(f"❌ Error refreshing token: {e}")
         await asyncio.sleep(REFRESH_INTERVAL)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     tokens = load_tokens()
     if not tokens or token_is_expired(tokens):
-        print(f"\n🚀 Please visit {BASE_URL}/authorize to link your Withings account.\n")
+        logger.info(f"\n🚀 Please visit {BASE_URL}/authorize to link your Withings account.\n")
     # Start background token refresher
     asyncio.create_task(token_refresher_loop())
     yield
     # Cleanup if needed (e.g., close connections, etc.)
     # No cleanup needed for this simple app
-    print("\n👋 Shutting down the app. No cleanup needed.\n")
+    logger.info("\n👋 Shutting down the app. No cleanup needed.\n")
 
 app = FastAPI(lifespan=lifespan)
 

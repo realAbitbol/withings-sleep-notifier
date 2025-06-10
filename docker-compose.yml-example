@@ -1,5 +1,5 @@
 services:
-  withings-bedevents:
+  withings-sleep-notifier:
     image: damastah/withings-sleep-notifier:latest
     container_name: withings-sleep-notifier
     restart: unless-stopped

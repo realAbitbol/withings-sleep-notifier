@@ -1,6 +1,6 @@
 # app/main.py
 import os, logging, requests, asyncio
-from fastapi import FastAPI, Request, HTTPException, BackgroundTasks
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import RedirectResponse
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
@@ -11,9 +11,9 @@ from .utils import load_tokens, token_is_expired, refresh_access_token
 logger = logging.getLogger("uvicorn")
 load_dotenv()  # Loads .env file into os.environ if present
 
-BASE_URL = os.getenv("BASE_URL").rstrip("/")
-BEDIN_URL = os.getenv("BEDIN_URL")
-BEDOUT_URL = os.getenv("BEDOUT_URL")
+BASE_URL = os.environ.get("BASE_URL", "").rstrip("/")
+BEDIN_URL = os.environ.get("BEDIN_URL")
+BEDOUT_URL = os.environ.get("BEDOUT_URL")
 REFRESH_INTERVAL = 60  # seconds; check every minute
 
 async def token_refresher_loop():
@@ -35,8 +35,6 @@ async def lifespan(app: FastAPI):
     # Start background token refresher
     asyncio.create_task(token_refresher_loop())
     yield
-    # Cleanup if needed (e.g., close connections, etc.)
-    # No cleanup needed for this simple app
     logger.info("\n👋 Shutting down the app. No cleanup needed.\n")
 
 app = FastAPI(lifespan=lifespan)
@@ -69,9 +67,8 @@ async def webhook(request: Request):
     """
     form = await request.form()
     appli = form.get("appli")
-    # debug log (in production, use proper logging)
     logger.info(f"Notification received: {form}")
-    # Identify bed-in/out events by appli code:contentReference[oaicite:14]{index=14}
+    # Identify bed-in/out events by appli code
     if appli == "50":
         target_url = BEDIN_URL
     elif appli == "51":

@@ -6,7 +6,7 @@ A simple Python app that send GET notifications to a remote server whenever you 
 
 - `CLIENT_ID`: Your Withings client ID.
 - `CLIENT_SECRET`: Your Withings client secret.
-- `APP_URL`: The URL of the application. This is used for authorization and notification URLs.
+- `BASE_URL`: The public URL of the application. This is used for authorization and notification URLs.
 - `BEDIN_URL`: The URL to send GET notifications when you enter your bed.
 - `BEDOUT_URL`: The URL to send GET notifications when you leave your bed.
 
@@ -14,7 +14,7 @@ A simple Python app that send GET notifications to a remote server whenever you 
 
 1. Create a Withings account and register your app (see below)
 2. Set the env variables either in docker-compose.yml or in .env
-3. Run the app using Docker Compose or directly with `python3 app/main.py` after having run `pip install -r requirements.txt`
+3. Run the app using Docker Compose or directly with `uvicorn app.main:app --host 0.0.0.0 --port 8000` after having run `pip install -r requirements.txt`
 
 ## Registering with Withings Developer Portal
 

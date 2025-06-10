@@ -22,3 +22,7 @@ A simple Python app that send GET notifications to a remote server whenever you 
 2. Set redirect URI: In your app settings, set the Callback URL (Redirect URI) to your base URL plus /webhook (e.g. `https://yourdomain.com/webhook`).
 3. Enable notifications: In the app settings, ensure that your callback URL (`BASE_URL`/webhook) is registered/allowed for data notifications. The Withings docs note that subscriptions use your registered callback URL
 4. Scopes: Request the `user.sleepevents` scope (which allows receiving bed-in/out notifications). No other scopes are needed since we only handle sleep events.
+
+## Offer me a coffee ☕
+
+<https://ko-fi.com/realabitbol>
